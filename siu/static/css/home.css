@@ -1,0 +1,19 @@
+aside{
+    background:#8B4513;
+    colors:black;
+}
+body {
+    background: linear-gradient(to top right,  #8B4513, #A0522D, #D2691E, #CD5C5C ); /* Adjust colors and direction as needed */
+}
+
+footer{
+    min-height:150px;
+}
+
+.details{
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    backdrop-filter: blur(50px); /* Apply blur effect */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Optional: Add a subtle border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
