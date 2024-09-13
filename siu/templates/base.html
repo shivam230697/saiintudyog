@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en" xmlns="http://www.w3.org/1999/html" data-bs-theme="light">
+
+<head>
+
+    {% load django_bootstrap5  %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> {% block title %} Home {% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+
+    <!--NavBar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+        <div class="container-fluid ">
+            <a class="navbar-brand  bordered rounded" href="#">Sai Bricks</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarmenu" aria-controls="navbarmenu" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+            <div class="collapse navbar-collapse" id="navbarmenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="{% url 'home' %}" class="nav-link ">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link ">About us</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link badge border">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </nav>
+
+
+
+    <div class="d-flex min-vh-100 ">
+        <aside class="collapse collapse-horizontal sidebar  text-center " id="asidemenu">
+            <h1 class="p-2 ">Profile</h1><hr>
+        </aside>
+
+        <main class="flex-grow-1  ">
+            <button class="navbar-toggler  mx-1 " type="button" data-bs-toggle="collapse" data-bs-target="#asidemenu" aria-controls="asidemenu" aria-expanded="false" aria-label="Toggle navigation"><i class="bi bi-arrow-left-right arrow"></i></button>
+            {% block content %}
+            <div class="container details ">
+                <div class="row">
+                    <img src="{% static 'images/logo.jpg' %}" class="logo col-2">
+                    <div class="col-10">
+                        <div class="row"><h1>Sai Int Udyog</h1></div>
+                        <div class="row"><h5>Remjha, Bareh, Ambah, Madhya Padesh</h5></div>
+                        <div class="row"><h6>Pin code: 476111</h6></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="container details  my-2">
+                <h1>Mission:</h1>
+                <p>We finally does conquer our goals and achievement toward bricks quality and excellence</p>
+                <h1>Vision:</h1>
+                <p>We finally does conquer our goals and achievement toward bricks quality and excellence</p>
+
+            </div>
+            {% endblock %}
+        </main>
+    </div>
+
+    <!--Footer-->
+    <footer class="bg-dark text-white">
+        <div class="container display-flex">
+            <button type="button">Footer </button>
+        </div>
+    </footer>
+</body>
+</html>
+
