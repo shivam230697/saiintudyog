@@ -41,6 +41,9 @@ class AccountModel(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        self.name = str(self.name).upper()
+        self.address = str(self.address).capitalize()
+        self.type = str(self.type).upper()
         if not self.account_id:
             self.account_id = self.generate_account_id()
         super().save(*args, **kwargs)

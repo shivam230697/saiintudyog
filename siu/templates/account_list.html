@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5  %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block title %} Accounts {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/account_list.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <h1 class="text-center">Accounts</h1>
+            {% include 'messages.html' %}
+        <div class="d-flex flex-column flex-sm-row justify-content-around">
+                <input type="search" class="form-control mx-2 mb-2 mb-sm-0" placeholder="search...">
+                <a class="btn border mx-2" title="Add Account" href="{% url 'account-add' %}"><i class="bi bi-file-earmark-plus fs-4"></i></a>
+        </div>
+
+
+        <!--Account List -->
+        <br>
+        <div class="table-responsive text-nowrap" style="overflow:scroll">
+            <table class="table">
+                <thead class="">
+                    <tr class="">
+                        <th scope="col">#</th>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <!--<th>Address</th>-->
+                        <th>Type</th>
+                        <!--<th>Created at</th>
+                        <th>Updated at</th>-->
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for account in account_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{account.account_id}}</td>
+                        <td>{{account.name}}</td>
+                        <!--<td>{{account.address}}</td>-->
+                        <td>{{account.type}}</td>
+                        <!--<td>{{account.created_at |date:"d-m-y H:i:s A"|safe }}</td>
+                        <td>{{account.updated_at |date:"d-m-y H:i:s A"|safe}}</td>-->
+                        <td>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#account-modal-{{ account.id }}">View</button>
+                        </td>
+                    </tr>
+
+                     <!-- Modal window for account Update -->
+
+                    <div class="modal fade" id="account-modal-{{ account.id }}" tabindex="-1" aria-labelledby="account-modal-label-{{ account.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="account-modal-label-{{ account.id }}">Account Details: {{account.account_id}}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form id="update-account-form-{{ account.id }}" method="POST" >
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Name:</label>
+                                            <input type="text" class="form-control" id="name" name="name" value="{{ account.name }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label">Address:</label>
+                                            <input type="text" class="form-control" id="address" name="address" value="{{ account.address }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="type" class="form-label">Type:</label>
+                                            <select class="form-select" id="type"  name="type" required>
+                                                <option value="{{ account.type }}">{{ account.type }}</option >
+
+                                                <!-- Add other options here -->
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="created_at" class="form-label">Created At:</label>
+                                            <input type="text" class="form-control" id="created_at" name="created_at" value="{{ account.created_at |date:'d-m-y H:i:s A'|safe }}" readonly>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="updated_at" class="form-label">Updated At:</label>
+                                            <input type="text" class="form-control" id="updated_at" name="updated_at" value="{{ account.updated_at |date:'d-m-y H:i:s A'|safe }}" readonly>
+                                        </div>
+                                        <input class="btn btn-primary" formaction="{% url 'account-update' account.id %}"  type="submit" value="Update">
+                                        <input class="btn btn-danger" formaction="{% url 'account-delete' account.id %}"  type="submit" value="Delete">
+
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                                <div class="modal-footer"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <br>
+        <!--Pagination-->
+         <nav aria-label="Page navigation example" class="">
+             <ul class="pagination">
+                 {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                 {% else %}
+                    <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+
+                 {% endif %}
+
+                 {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+                 {% else %}
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+                 {% endif %}
+             </ul>
+
+             <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+             </span>
+         </nav>
+    </div>
+    <script src="{% static 'js/accounts.js' %}" ></script>
+
+{% endblock %}
+
+

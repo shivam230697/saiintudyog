@@ -35,6 +35,15 @@ class ModelTests(TestCase):
         expected_id = f"{self.date_str}001"
         self.assertEqual(account.account_id, expected_id)
 
+    def test_generate_account_id_for_two_digits(self):
+        """Test case when no IDs exist for today."""
+        for i in range(12):
+            account = AccountModel(name="Test User", address="123 Test St", type="SALE")
+            account.save()
+        last_account = AccountModel.objects.last()
+        expected_id = f"{self.date_str}012"  # The 12th object should have ID 012
+        self.assertEqual(last_account.account_id, expected_id)
+
     def test_generate_account_id_with_existing_ids(self):
         """Test case to verify correct ID generation with existing IDs."""
         existing_account = AccountModel(name="Existing User", address="456 Existing St", type="MITTI")
