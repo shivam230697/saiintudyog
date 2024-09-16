@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} Account Add {% endblock %}
+
+{% block content %}
+    <div class="container ">
+        {% include 'messages.html '%}
+        <form method="POST" class="form-control" >
+            {% csrf_token %}
+            {{ account_form.non_field_errors }}
+            <label for="{{ account_form.name.id_for_label }}">Full Name:</label><br>
+            <input type="text" class="form-control" name="name" id="{{ account_form.name.id_for_label }}" autofocus required>
+                {{ account_form.name.errors }}<br>
+            <label for="{{ account_form.address.id_for_label }}">Address:</label><br>
+            <input type="text" class="form-control" name="address" id="{{ account_form.address.id_for_label }}">
+                {{ account_form.address.errors }}<br>
+            <label for="{{ account_form.type.id_for_label }}" class="form-label">Type:</label>
+            <select class="form-select" id="{{ account_form.type.id_for_label }}"  name="type" required>
+                    {% for value, label in account_form.type.field.choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+            </select>
+                {{ account_form.type.errors }}<br>
+            <button type="submit" formaction="{% url 'account-add' %}" class="btn btn-primary">Add Account</button>
+        </form>
+    </div>
+{% endblock %}
+
